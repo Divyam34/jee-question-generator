@@ -1,0 +1,277 @@
+
+<div class="generator-container">
+
+  <div class="practice-layout">
+
+    <!-- Left Visual Section -->
+    <section class="practice-intro">
+
+      <div class="brand-label">
+        <span class="brand-dot"></span>
+        JEE PREP STUDIO
+      </div>
+
+      <div class="intro-content">
+        <span class="eyebrow">YOUR JOURNEY STARTS HERE</span>
+
+        <h1>
+          Practice smarter.<br>
+          <span>Achieve bigger.</span>
+        </h1>
+
+        <p>
+          Build confidence, strengthen your concepts and prepare
+          yourself for the challenges of JEE Main and Advanced.
+        </p>
+      </div>
+
+      <!-- Custom Illustration -->
+      <div class="illustration">
+
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+
+        <div class="floating-symbol symbol-one">∑</div>
+        <div class="floating-symbol symbol-two">π</div>
+        <div class="floating-symbol symbol-three">√x</div>
+
+        <svg viewBox="0 0 500 360" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Books, mathematics and study illustration">
+
+          <ellipse cx="250" cy="320" rx="190" ry="20"
+                   fill="#b9b5ff" opacity=".22"/>
+
+          <!-- Background circle -->
+          <circle cx="250" cy="165" r="135"
+                  fill="#e9e8ff"/>
+
+          <circle cx="250" cy="165" r="105"
+                  fill="#dcdcff"/>
+
+          <!-- Desk -->
+          <path d="M90 280 H410 L390 300 H110 Z"
+                fill="#7771db"/>
+
+          <rect x="105" y="300" width="12" height="30"
+                rx="4" fill="#5149a9"/>
+
+          <rect x="383" y="300" width="12" height="30"
+                rx="4" fill="#5149a9"/>
+
+          <!-- Laptop screen -->
+          <rect x="165" y="95" width="170" height="125"
+                rx="12" fill="#292d59"/>
+
+          <rect x="174" y="104" width="152" height="106"
+                rx="7" fill="#f7f7ff"/>
+
+          <rect x="185" y="117" width="62" height="6"
+                rx="3" fill="#aaa5f4"/>
+
+          <rect x="185" y="133" width="100" height="5"
+                rx="2" fill="#d2d0f9"/>
+
+          <rect x="185" y="146" width="80" height="5"
+                rx="2" fill="#d2d0f9"/>
+
+          <path d="M185 185 L210 165 L232 176 L263 151 L294 166"
+                fill="none" stroke="#7165e8"
+                stroke-width="4" stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+          <path d="M150 221 H350 L370 237 H130 Z"
+                fill="#7165d8"/>
+
+          <rect x="210" y="224" width="80" height="5"
+                rx="2" fill="#c5c1ff"/>
+
+          <!-- Books -->
+          <rect x="55" y="248" width="100" height="18"
+                rx="4" fill="#6b62d8"/>
+
+          <rect x="65" y="230" width="90" height="18"
+                rx="4" fill="#a29cf5"/>
+
+          <rect x="75" y="212" width="80" height="18"
+                rx="4" fill="#5149a9"/>
+
+          <path d="M90 217 H140 M80 235 H140 M70 253 H140"
+                stroke="#e9e8ff" stroke-width="3"
+                stroke-linecap="round"/>
+
+          <!-- Plant -->
+          <path d="M395 245 Q390 205 405 183"
+                stroke="#438b80" stroke-width="5"
+                fill="none"/>
+
+          <path d="M405 207 Q370 190 375 170 Q400 169 405 207"
+                fill="#68b8a0"/>
+
+          <path d="M401 192 Q414 160 435 165 Q435 187 401 192"
+                fill="#438b80"/>
+
+          <path d="M395 225 Q370 210 365 194 Q390 190 395 225"
+                fill="#7ac9ac"/>
+
+          <path d="M382 245 H420 L414 273 H388 Z"
+                fill="#ef9a83"/>
+
+          <!-- Sparkles -->
+          <path d="M105 100 V120 M95 110 H115"
+                stroke="#7165d8" stroke-width="4"
+                stroke-linecap="round"/>
+
+          <path d="M385 85 V105 M375 95 H395"
+                stroke="#7165d8" stroke-width="4"
+                stroke-linecap="round"/>
+
+        </svg>
+      </div>
+
+      <div class="intro-footer">
+        <span>FOCUS</span>
+        <span class="footer-line"></span>
+        <span>CONSISTENCY</span>
+        <span class="footer-line"></span>
+        <span>SUCCESS</span>
+      </div>
+
+    </section>
+
+    <!-- Right Form Section -->
+    <section class="generator-card">
+
+      <div class="form-heading">
+        <span class="form-tag">PRACTICE SESSION</span>
+
+        <h2>Generate Questions</h2>
+
+        <p>Select your preferences to start your practice test.</p>
+      </div>
+
+      <!-- Exam Selection -->
+      <div class="form-group">
+        <label>Select Exam</label>
+
+        <select
+          [value]="selectedExam"
+          (change)="onExamChange($event)">
+
+          <option value="">Select Exam</option>
+          <option value="MAIN">JEE Main</option>
+          <option value="ADVANCED">JEE Advanced</option>
+
+        </select>
+      </div>
+
+      <!-- Subject Selection -->
+      <div class="form-group">
+        <label>Select Subject</label>
+
+        <select
+          [value]="selectedSubjectId ?? ''"
+          (change)="onSubjectChange($event)">
+
+          <option value="">Select Subject</option>
+
+          <option
+            *ngFor="let subject of subjects"
+            [value]="subject.id">
+
+            {{ subject.name }}
+
+          </option>
+
+        </select>
+      </div>
+
+      <!-- Topic Selection -->
+      <div class="form-group">
+        <label>Select Topic</label>
+
+        <select
+          [value]="selectedTopicId ?? ''"
+          (change)="onTopicChange($event)"
+          [disabled]="isTopicsLoading || topics.length === 0">
+
+          <option value="">
+            {{
+              isTopicsLoading
+                ? 'Loading topics...'
+                : topics.length === 0
+                  ? 'Select a subject first'
+                  : 'Select Topic'
+            }}
+          </option>
+
+          <option
+            *ngFor="let topic of filteredTopics"
+            [value]="topic.id">
+
+            {{ topic.name }}
+
+          </option>
+
+        </select>
+
+        <small *ngIf="isTopicsLoading">
+          Please wait, fetching topics...
+        </small>
+      </div>
+
+      <!-- Difficulty Selection -->
+      <div class="form-group">
+        <label>Select Difficulty</label>
+
+        <select
+          [value]="selectedDifficulty"
+          (change)="onDifficultyChange($event)">
+
+          <option value="">Select Difficulty</option>
+          <option value="EASY">Easy</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HARD">Hard</option>
+
+        </select>
+      </div>
+
+      <!-- Question Count -->
+      <div class="form-group">
+        <label>Number of Questions</label>
+
+        <select
+          [value]="questionCount"
+          (change)="onQuestionCountChange($event)">
+
+          <option value="5">5 Questions</option>
+          <option value="10">10 Questions</option>
+          <option value="15">15 Questions</option>
+          <option value="20">20 Questions</option>
+
+        </select>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Generate Button -->
+      <button
+        type="button"
+        (click)="onGenerateQuestions()"
+        [disabled]="isLoading || isTopicsLoading">
+
+        <span>
+          {{ isLoading ? 'Generating Questions...' : 'Generate Questions' }}
+        </span>
+
+        <span class="button-arrow" *ngIf="!isLoading">→</span>
+
+      </button>
+
+    </section>
+
+  </div>
+
+</div>

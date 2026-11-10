@@ -1,0 +1,253 @@
+
+<div class="exam-container">
+
+  <!-- Exam Header -->
+  <header class="exam-header">
+
+    <div class="exam-title">
+      <h2>IIT-JEE Online Examination</h2>
+      <p>Total Questions: {{ questions.length }}</p>
+    </div>
+
+    <!-- Running Countdown -->
+    <div class="timer" [class.timer-warning]="remainingSeconds <= 300">
+
+      <span class="timer-label">TIME REMAINING</span>
+
+      <div class="timer-display">
+        {{ formattedTime }}
+      </div>
+
+      <small>Exam duration: 3 hours</small>
+
+    </div>
+
+  </header>
+
+  <div class="exam-layout">
+
+    <!-- Main Question Area -->
+    <main class="question-section">
+
+      @if (currentQuestion) {
+
+        <div class="question-header">
+
+          <h3>
+            Question {{ currentQuestionIndex + 1 }}
+            of {{ questions.length }}
+          </h3>
+
+          <span class="difficulty">
+            {{ currentQuestion.difficulty }}
+          </span>
+
+        </div>
+
+        <!-- Question Statement -->
+        <div class="question-content">
+
+          <h3>Question Statement</h3>
+
+          <p class="question-text">
+            {{ currentQuestion.questionText }}
+          </p>
+
+        </div>
+
+        <!-- Separate Diagram -->
+        @if (currentQuestion.diagramPath) {
+
+          <div class="question-diagram-container">
+
+            <h3>Diagram</h3>
+
+            <img
+              [src]="getQuestionDiagramUrl(currentQuestion)"
+              alt="Question diagram"
+              class="question-diagram"
+              (error)="onDiagramError(currentQuestion)"
+            />
+
+          </div>
+
+        }
+
+        <!-- Answer Options -->
+        <div class="answer-section">
+
+          <h3>Select Your Answer</h3>
+
+          <div class="options-container">
+
+            @for (option of currentOptions; track option.key) {
+
+              <label
+                class="option"
+                [class.selected]="isAnswerSelected(option.key)"
+              >
+
+                <input
+                  type="radio"
+                  [name]="'question-' + currentQuestion.id"
+                  [value]="option.key"
+                  [checked]="isAnswerSelected(option.key)"
+                  [disabled]="isSubmitted"
+                  (change)="selectAnswer(option.key)"
+                />
+
+                <span class="option-label">
+                  {{ option.key }}
+                </span>
+
+                <span class="option-text">
+                  {{ option.value }}
+                </span>
+
+              </label>
+
+            }
+
+            @if (currentOptions.length === 0) {
+
+              <p class="missing-options">
+                Options are not available for this question.
+                This question needs extraction review.
+              </p>
+
+            }
+
+          </div>
+
+        </div>
+
+        <!-- Source Reference -->
+        <div class="question-reference">
+
+          <small>
+            Source: Uploaded question paper |
+            Page: {{ currentQuestion.pageNumber }} |
+            Original Question: {{ currentQuestion.questionNumber }}
+          </small>
+
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="question-actions">
+
+          <button
+            type="button"
+            (click)="previousQuestion()"
+            [disabled]="currentQuestionIndex === 0 || isSubmitted"
+          >
+            Previous
+          </button>
+
+          <button
+            type="button"
+            class="clear-button"
+            (click)="clearResponse()"
+            [disabled]="isSubmitted"
+          >
+            Clear Response
+          </button>
+
+          <button
+            type="button"
+            class="review-button"
+            (click)="markForReview()"
+            [disabled]="isSubmitted"
+          >
+            Mark for Review
+          </button>
+
+          <button
+            type="button"
+            class="next-button"
+            (click)="saveAndNext()"
+            [disabled]="currentQuestionIndex === questions.length - 1 || isSubmitted"
+          >
+            Save & Next
+          </button>
+
+        </div>
+
+      }
+
+    </main>
+
+    <!-- Question Palette -->
+    <aside class="question-palette">
+
+      <h3>Question Palette</h3>
+
+      <div class="palette-summary">
+
+        <p>
+          <span class="answered-dot"></span>
+          Answered: {{ answeredCount }}
+        </p>
+
+        <p>
+          <span class="not-answered-dot"></span>
+          Not Answered: {{ unansweredCount }}
+        </p>
+
+        <p>
+          <span class="review-dot"></span>
+          Marked for Review: {{ markedForReview.length }}
+        </p>
+
+        <p>
+          <span class="not-visited-dot"></span>
+          Not Visited:
+          {{ questions.length - visitedQuestions.length }}
+        </p>
+
+      </div>
+
+      <!-- Question Numbers -->
+      <div class="palette-grid">
+
+        @for (question of questions; track question.id; let i = $index) {
+
+          <button
+            type="button"
+            class="palette-button"
+            [class.answered]="selectedAnswers[i]"
+            [class.visited]="visitedQuestions.includes(i) && !selectedAnswers[i]"
+            [class.marked]="markedForReview.includes(i)"
+            [class.current]="currentQuestionIndex === i"
+            (click)="goToQuestion(i)"
+            [disabled]="isSubmitted"
+          >
+            {{ i + 1 }}
+          </button>
+
+        }
+
+      </div>
+
+      <!-- Submit Exam -->
+      <div class="submit-section">
+
+        <p>
+          Answered: {{ answeredCount }} / {{ questions.length }}
+        </p>
+
+        <button
+          type="button"
+          class="submit-button"
+          (click)="submitTest()"
+          [disabled]="isSubmitted"
+        >
+          Submit Test
+        </button>
+
+      </div>
+
+    </aside>
+
+  </div>
+
+</div>

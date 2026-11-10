@@ -1,0 +1,538 @@
+
+<div class="home-container">
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+
+    <div class="hero-background-decoration"></div>
+
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        <span class="live-dot"></span>
+        YOUR IIT JOURNEY STARTS HERE
+      </div>
+
+      <h1>
+        Your Journey to
+        <span>IIT Starts Here.</span>
+      </h1>
+
+      <p>
+        Prepare smarter, practice better, and achieve your dream.
+        Access carefully organized JEE Main and Advanced preparation
+        resources to take your preparation to the next level.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/login" class="primary-btn">
+          Start Preparing <span>→</span>
+        </a>
+
+        <a href="#features" class="secondary-btn">
+          Explore Features <span>↗</span>
+        </a>
+      </div>
+
+      <div class="hero-highlights">
+        <div><span class="highlight-symbol">✦</span> JEE Main</div>
+        <div><span class="highlight-symbol">✦</span> JEE Advanced</div>
+        <div><span class="highlight-symbol">✦</span> Smart Practice</div>
+      </div>
+
+    </div>
+
+    <!-- HERO CAROUSEL -->
+    <div class="hero-visual">
+
+      <div class="floating-card card-top">
+        <span class="floating-icon">🎯</span>
+        <div>
+          <strong>Stay Focused</strong>
+          <small>Your dream, your destination</small>
+        </div>
+      </div>
+
+      <div class="carousel-frame">
+
+        <div class="carousel-images">
+          @for (slide of slides; track slide.title; let i = $index) {
+            <img
+              [src]="slide.image"
+              [alt]="slide.title"
+              [class.active]="currentSlide === i"
+            />
+          }
+        </div>
+
+        <div class="carousel-overlay"></div>
+
+        <div class="carousel-counter">
+          <strong>{{ currentSlide + 1 }}</strong>
+          <span>/ {{ slides.length }}</span>
+        </div>
+
+        <div class="carousel-caption">
+          <span>{{ slides[currentSlide].label }}</span>
+          <h2>{{ slides[currentSlide].title }}</h2>
+          <p>{{ slides[currentSlide].description }}</p>
+        </div>
+
+        <div class="carousel-controls">
+          <button type="button" aria-label="Previous slide" (click)="previousSlide()">‹</button>
+          <button type="button" aria-label="Next slide" (click)="nextSlide()">›</button>
+        </div>
+
+        <div class="carousel-progress">
+          <span [style.width.%]="((currentSlide + 1) / slides.length) * 100"></span>
+        </div>
+
+      </div>
+
+      <div class="carousel-indicators">
+        @for (slide of slides; track slide.title; let i = $index) {
+          <button
+            type="button"
+            [class.active]="currentSlide === i"
+            [attr.aria-label]="'Go to slide ' + (i + 1)"
+            (click)="goToSlide(i)">
+          </button>
+        }
+      </div>
+
+      <div class="floating-card card-bottom">
+        <span class="floating-icon">📚</span>
+        <div>
+          <strong>Learn Every Day</strong>
+          <small>Consistency creates success</small>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust-strip">
+    <div><strong>01</strong><span>JEE Main Preparation</span></div>
+    <div><strong>02</strong><span>JEE Advanced Practice</span></div>
+    <div><strong>03</strong><span>Previous Year Papers</span></div>
+    <div><strong>04</strong><span>Smart Learning</span></div>
+  </section>
+
+  <!-- EXAMS -->
+  <section class="section-padding exams-section" id="exams">
+
+    <div class="section-heading reveal">
+      <span class="eyebrow">CHOOSE YOUR GOAL</span>
+      <h2>Prepare for Your <span>Dream College</span></h2>
+      <p>
+        Build your preparation strategy with dedicated resources
+        for both JEE Main and JEE Advanced.
+      </p>
+    </div>
+
+    <div class="exam-grid">
+
+      <div class="exam-card main-card reveal">
+        <span class="exam-number">01</span>
+        <div class="exam-icon">🎓</div>
+        <span class="card-label">NATIONAL LEVEL ENTRANCE</span>
+        <h3>JEE Main</h3>
+        <p>
+          Strengthen your concepts and practice questions
+          from previous year papers to improve your performance.
+        </p>
+        <a routerLink="/login" class="card-link">
+          Start JEE Main Preparation <span>→</span>
+        </a>
+      </div>
+
+      <div class="exam-card advanced-card reveal">
+        <span class="exam-number">02</span>
+        <div class="exam-icon">🏆</div>
+        <span class="card-label">ADVANCED LEVEL ENTRANCE</span>
+        <h3>JEE Advanced</h3>
+        <p>
+          Challenge yourself with advanced-level questions
+          and develop the problem-solving skills required
+          for IIT entrance.
+        </p>
+        <a routerLink="/login" class="card-link">
+          Start JEE Advanced Preparation <span>→</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section-padding features-section" id="features">
+
+    <div class="section-heading reveal">
+      <span class="eyebrow">WHY JEEPrep?</span>
+      <h2>Everything You Need to <span>Succeed</span></h2>
+      <p>
+        A structured preparation platform designed to
+        make your JEE learning experience better.
+      </p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card reveal">
+        <div class="feature-icon purple">📄</div>
+        <h3>Previous Year Questions</h3>
+        <p>Practice questions extracted from original uploaded examination papers.</p>
+        <a routerLink="/login">Explore Questions →</a>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">⏱️</div>
+        <h3>Timed Practice</h3>
+        <p>Improve your speed and accuracy through structured practice sessions.</p>
+        <a routerLink="/login">Start Practice →</a>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon green">📊</div>
+        <h3>Performance Tracking</h3>
+        <p>Understand your preparation progress and identify areas that need improvement.</p>
+        <a routerLink="/login">View Dashboard →</a>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">🧠</div>
+        <h3>Smart Learning</h3>
+        <p>Focus on concepts and develop a consistent learning routine.</p>
+        <a href="#roadmap">Explore Roadmap →</a>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon pink">📚</div>
+        <h3>Subject-wise Practice</h3>
+        <p>Organize your preparation across Physics, Chemistry and Mathematics.</p>
+        <a href="#subjects">Explore Subjects →</a>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon yellow">🎯</div>
+        <h3>Goal-oriented Preparation</h3>
+        <p>Stay motivated and work towards your IIT admission goal.</p>
+        <a href="#roadmap">View Roadmap →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUBJECTS -->
+  <section class="section-padding subjects-section" id="subjects">
+
+    <div class="section-heading reveal">
+      <span class="eyebrow">MASTER EVERY SUBJECT</span>
+      <h2>Build Strong <span>Fundamentals</span></h2>
+      <p>
+        Focus on all three core subjects of JEE
+        with dedicated preparation.
+      </p>
+    </div>
+
+    <div class="subjects-grid">
+
+      <div class="subject-card reveal">
+        <img
+          src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=900&q=85"
+          alt="Physics preparation"
+          loading="lazy"
+        />
+        <div class="subject-overlay">
+          <span>SUBJECT 01</span>
+          <h3>Physics</h3>
+          <p>Understand concepts and solve numerical problems.</p>
+          <a routerLink="/login">Explore Physics →</a>
+        </div>
+      </div>
+
+      <div class="subject-card reveal">
+        <img
+          src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=900&q=85"
+          alt="Chemistry preparation"
+          loading="lazy"
+        />
+        <div class="subject-overlay">
+          <span>SUBJECT 02</span>
+          <h3>Chemistry</h3>
+          <p>Strengthen your theoretical and practical understanding.</p>
+          <a routerLink="/login">Explore Chemistry →</a>
+        </div>
+      </div>
+
+      <div class="subject-card reveal">
+        <img
+          src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=900&q=85"
+          alt="Mathematics preparation"
+          loading="lazy"
+        />
+        <div class="subject-overlay">
+          <span>SUBJECT 03</span>
+          <h3>Mathematics</h3>
+          <p>Improve logical thinking and problem-solving skills.</p>
+          <a routerLink="/login">Explore Mathematics →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section-padding roadmap-section" id="roadmap">
+
+    <div class="section-heading reveal">
+      <span class="eyebrow">YOUR PREPARATION JOURNEY</span>
+      <h2>A Clear Roadmap to <span>Success</span></h2>
+      <p>Follow a structured approach to improve your preparation step by step.</p>
+    </div>
+
+    <div class="roadmap">
+
+      <div class="roadmap-item reveal">
+        <div class="roadmap-number">01</div>
+        <div class="roadmap-content">
+          <span>STEP ONE</span>
+          <h3>Understand Concepts</h3>
+          <p>Build a strong foundation in Physics, Chemistry and Mathematics.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item reveal">
+        <div class="roadmap-number">02</div>
+        <div class="roadmap-content">
+          <span>STEP TWO</span>
+          <h3>Practice Questions</h3>
+          <p>Solve questions from original examination papers and strengthen your understanding.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item reveal">
+        <div class="roadmap-number">03</div>
+        <div class="roadmap-content">
+          <span>STEP THREE</span>
+          <h3>Take Mock Tests</h3>
+          <p>Practice under timed conditions to improve speed and accuracy.</p>
+        </div>
+      </div>
+
+      <div class="roadmap-item reveal">
+        <div class="roadmap-number">04</div>
+        <div class="roadmap-content">
+          <span>STEP FOUR</span>
+          <h3>Analyze Performance</h3>
+          <p>Review your mistakes and continuously improve your preparation strategy.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section-padding how-section">
+
+    <div class="how-content reveal">
+      <span class="eyebrow">SIMPLE. SMART. EFFECTIVE.</span>
+      <h2>Your Preparation, <span>One Platform.</span></h2>
+      <p>
+        Access your preparation resources through a simple and organized dashboard.
+        Practice questions and monitor your progress.
+      </p>
+
+      <div class="how-points">
+        <div><span>✓</span> Access your student dashboard</div>
+        <div><span>✓</span> Choose your examination and subject</div>
+        <div><span>✓</span> Practice questions from uploaded papers</div>
+        <div><span>✓</span> Track your learning progress</div>
+      </div>
+
+      <a routerLink="/login" class="primary-btn">Explore Dashboard →</a>
+    </div>
+
+    <div class="how-visual reveal">
+      <div class="visual-decoration"></div>
+
+      <div class="dashboard-preview">
+
+        <div class="preview-top">
+          <span class="preview-dot"></span>
+          <span class="preview-dot"></span>
+          <span class="preview-dot"></span>
+          <strong>JEEPrep Dashboard</strong>
+        </div>
+
+        <div class="preview-welcome">
+          <small>WELCOME BACK</small>
+          <h3>Ready to Learn?</h3>
+          <p>Your preparation journey continues here.</p>
+        </div>
+
+        <div class="preview-cards">
+          <div>
+            <span>📘</span>
+            <strong>JEE Main</strong>
+            <small>Exam preparation</small>
+          </div>
+          <div>
+            <span>🏆</span>
+            <strong>JEE Advanced</strong>
+            <small>Advanced practice</small>
+          </div>
+        </div>
+
+        <div class="preview-progress">
+          <div>
+            <strong>Learning Progress</strong>
+            <span>65%</span>
+          </div>
+          <div class="progress-line"><span></span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- DAILY CHALLENGE -->
+  <section class="section-padding challenge-section">
+
+    <div class="challenge-content reveal">
+      <span class="eyebrow">STAY CONSISTENT</span>
+      <h2>Small Steps. <span>Big Dreams.</span></h2>
+      <p>
+        Every question you solve takes you one step closer to your dream IIT.
+        Make learning a daily habit and keep improving.
+      </p>
+      <a routerLink="/login" class="primary-btn">Start Your Journey →</a>
+    </div>
+
+    <div class="challenge-visual reveal">
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <div class="challenge-circle">
+        <span>🎯</span>
+        <strong>100%</strong>
+        <small>DEDICATION</small>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding faq-section" id="faq">
+
+    <div class="section-heading reveal">
+      <span class="eyebrow">GOT QUESTIONS?</span>
+      <h2>Frequently Asked <span>Questions</span></h2>
+      <p>Find answers to some common questions about JEEPrep.</p>
+    </div>
+
+    <div class="faq-list">
+
+      @for (faq of faqs; track faq.question; let i = $index) {
+        <div class="faq-item reveal">
+
+          <button
+            type="button"
+            class="faq-question"
+            [attr.aria-expanded]="openFaq === i"
+            (click)="toggleFaq(i)">
+
+            {{ faq.question }}
+
+            <span class="faq-toggle">
+              {{ openFaq === i ? '−' : '+' }}
+            </span>
+
+          </button>
+
+          @if (openFaq === i) {
+            <div class="faq-answer">
+              <p>{{ faq.answer }}</p>
+            </div>
+          }
+
+        </div>
+      }
+
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+
+    <div class="cta-decoration cta-decoration-one"></div>
+    <div class="cta-decoration cta-decoration-two"></div>
+
+    <span class="eyebrow">YOUR FUTURE STARTS TODAY</span>
+
+    <h2>
+      Dream Big. Work Hard.
+      <span>Make IIT Happen.</span>
+    </h2>
+
+    <p>
+      Take the first step towards your dream.
+      Start your JEE preparation journey today.
+    </p>
+
+    <a routerLink="/login" class="cta-button">
+      Get Started Now <span>→</span>
+    </a>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="footer-main">
+
+      <div class="footer-about">
+        <a routerLink="/" class="brand">
+          <div class="brand-icon"><span>J</span></div>
+          <span>JEE<span class="brand-highlight">Prep</span></span>
+        </a>
+
+        <p>
+          Your companion in the journey towards IIT.
+          Learn, practice and prepare with confidence.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Quick Links</h4>
+        <a routerLink="/">Home</a>
+        <a href="#exams">Exams</a>
+        <a href="#features">Features</a>
+        <a href="#subjects">Subjects</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Preparation</h4>
+        <a routerLink="/login">JEE Main</a>
+        <a routerLink="/login">JEE Advanced</a>
+        <a href="#roadmap">Study Roadmap</a>
+        <a href="#features">Practice</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Support</h4>
+        <a href="#faq">FAQs</a>
+        <a routerLink="/login">Login</a>
+        <a routerLink="/register">Register</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {{ currentYear }} JEEPrep. All rights reserved.</span>
+      <span>Made for future IITians ❤️</span>
+    </div>
+
+  </footer>
+
+</div>

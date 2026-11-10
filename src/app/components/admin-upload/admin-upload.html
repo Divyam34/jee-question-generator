@@ -1,0 +1,360 @@
+
+<div class="admin-container">
+
+  <h2>Admin - Upload Question Paper</h2>
+
+  <!-- 1. PDF Upload -->
+  <section class="upload-section">
+    <h3>1. Upload PDF</h3>
+
+    <input
+      type="file"
+      accept=".pdf,application/pdf"
+      (change)="onFileSelected($event)"
+    />
+
+    <button
+      type="button"
+      (click)="uploadPdf()"
+      [disabled]="!selectedFile || isUploading"
+    >
+      {{ isUploading ? 'Uploading...' : 'Upload PDF' }}
+    </button>
+
+    @if (fileName) {
+      <p><strong>Uploaded file:</strong> {{ fileName }}</p>
+      <p><strong>Paper ID:</strong> {{ paperId }}</p>
+    }
+  </section>
+
+  <!-- 2. Question Details -->
+  <section class="details-section">
+    <h3>2. Select Question Details</h3>
+
+    <div class="form-group">
+      <label for="examType">Exam</label>
+
+      <select id="examType" [(ngModel)]="examType">
+        <option value="">Select Exam</option>
+        <option value="MAIN">JEE Main</option>
+        <option value="ADVANCED">JEE Advanced</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Subject</label>
+
+      <select
+        id="subject"
+        [(ngModel)]="selectedSubjectId"
+        (ngModelChange)="onSubjectChange()"
+      >
+        <option [ngValue]="null">Select Subject</option>
+
+        @for (subject of subjects; track subject.id) {
+          <option [ngValue]="subject.id">
+            {{ subject.name }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="topic">Topic</label>
+
+      <select
+        id="topic"
+        [(ngModel)]="selectedTopicId"
+        [disabled]="!selectedSubjectId"
+      >
+        <option [ngValue]="null">Select Topic</option>
+
+        @for (topic of topics; track topic.id) {
+          <option [ngValue]="topic.id">
+            {{ topic.name }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="difficulty">Difficulty</label>
+
+      <select id="difficulty" [(ngModel)]="difficulty">
+        <option value="">Select Difficulty</option>
+        <option value="EASY">Easy</option>
+        <option value="MEDIUM">Medium</option>
+        <option value="HARD">Hard</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- 3. PDF Extraction -->
+  <section class="extraction-section">
+    <h3>3. Extract Questions</h3>
+
+    <button
+      type="button"
+      (click)="extractText()"
+      [disabled]="paperId === null || isExtracting"
+    >
+      {{ isExtracting ? 'Extracting...' : 'Extract PDF Text' }}
+    </button>
+
+    <button
+      type="button"
+      (click)="extractQuestions()"
+      [disabled]="paperId === null || isExtractingQuestions"
+    >
+      {{ isExtractingQuestions
+        ? 'Extracting...'
+        : 'Preview Question Images' }}
+    </button>
+  </section>
+
+  <!-- 4. Save Questions -->
+  <section class="save-section">
+    <h3>4. Save Questions</h3>
+
+    <p>
+      Save the extracted questions and their original images
+      to the database.
+    </p>
+
+    <button
+      type="button"
+      (click)="saveExtractedQuestions()"
+      [disabled]="paperId === null || isSavingQuestions"
+    >
+      {{ isSavingQuestions
+        ? 'Saving...'
+        : 'Save Questions to Database' }}
+    </button>
+  </section>
+
+  <!-- Success Message -->
+  @if (message) {
+    <div class="success-message">
+      {{ message }}
+    </div>
+  }
+
+  <!-- Error Message -->
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <!-- Extracted PDF Pages -->
+  @if (extractedPages.length > 0) {
+    <section class="preview-section">
+      <h3>Extracted PDF Pages</h3>
+
+      @for (page of extractedPages; track page.pageNumber) {
+        <div class="page-card">
+          <h4>Page {{ page.pageNumber }}</h4>
+
+          <pre>{{ page.extractedText }}</pre>
+
+          <img
+            [src]="getImageUrl(page.pageNumber)"
+            [alt]="'PDF page ' + page.pageNumber"
+          />
+        </div>
+      }
+    </section>
+  }
+
+  <!-- Extracted Images Preview -->
+  @if (questionImages.length > 0) {
+    <section class="question-preview-section">
+      <h3>Extracted Individual Images</h3>
+
+      @for (image of questionImages; track image.imagePath) {
+        <div class="question-card">
+          <h4>
+            Question {{ image.questionNumber }}
+            - Page {{ image.pageNumber }}
+          </h4>
+
+          <img
+            [src]="getQuestionImageUrl(image)"
+            [alt]="'Extracted image for question ' + image.questionNumber"
+          />
+        </div>
+      }
+    </section>
+  }
+
+  <!-- 5. Saved Questions from Database -->
+  @if (isLoadingSavedQuestions) {
+    <section class="saved-questions-section">
+      <h3>5. Saved Questions</h3>
+      <p>Loading saved questions from database...</p>
+    </section>
+  }
+
+  @if (!isLoadingSavedQuestions && savedQuestions.length > 0) {
+
+    <section class="saved-questions-section">
+
+      <h3>5. Saved Questions from Database</h3>
+
+      <div class="saved-summary">
+        <h4>
+          Total Saved Questions:
+          {{ savedQuestions.length }}
+        </h4>
+
+        <p>Paper ID: {{ paperId }}</p>
+        <p>Source: Database</p>
+      </div>
+
+      @for (question of savedQuestions; track question.id) {
+
+        <div class="saved-question-card">
+
+          <div class="saved-question-header">
+            <h4>
+              Question {{ question.questionNumber }}
+            </h4>
+
+            <span>
+              Page {{ question.pageNumber }}
+            </span>
+
+            <span>
+              ID: {{ question.id }}
+            </span>
+          </div>
+
+          <!-- Original Question Image -->
+          <div class="original-question-section">
+
+            <h5>Original Question Image</h5>
+
+            @if (question.imagePath) {
+              <img
+                class="saved-question-image"
+                [src]="getSavedQuestionImageUrl(question)"
+                [alt]="'Original question ' + question.questionNumber"
+              />
+            } @else {
+              <p>Original question image is not available.</p>
+            }
+
+          </div>
+
+          <!-- Extracted Question Text -->
+          <div class="question-text-section">
+
+            <h5>Extracted Question Text</h5>
+
+            <p>{{ question.questionText }}</p>
+
+            <div class="question-options">
+
+              @if (question.optionA) {
+                <p><strong>A.</strong> {{ question.optionA }}</p>
+              }
+
+              @if (question.optionB) {
+                <p><strong>B.</strong> {{ question.optionB }}</p>
+              }
+
+              @if (question.optionC) {
+                <p><strong>C.</strong> {{ question.optionC }}</p>
+              }
+
+              @if (question.optionD) {
+                <p><strong>D.</strong> {{ question.optionD }}</p>
+              }
+
+            </div>
+
+          </div>
+
+          <!-- Diagram -->
+          @if (question.diagramPath) {
+            <div class="saved-diagram-section">
+
+              <h5>Extracted Diagram</h5>
+
+              <img
+                class="saved-diagram-image"
+                [src]="getSavedDiagramUrl(question)"
+                [alt]="'Diagram for question ' + question.questionNumber"
+              />
+
+            </div>
+          }
+
+          <!-- Pix2Tex OCR Result -->
+          <div class="ocr-section">
+
+            <h5>Mathematical OCR Result - Pix2Tex</h5>
+
+            @if (getLatex(question)) {
+
+              <div class="ocr-status">
+                Needs Review
+              </div>
+
+              <pre class="latex-result">{{ getLatex(question) }}</pre>
+
+              <p class="ocr-note">
+                This is an OCR suggestion. Verify its accuracy
+                against the original question image.
+              </p>
+
+            } @else {
+
+              <div class="ocr-empty">
+                No mathematical OCR result available.
+              </div>
+
+            }
+
+          </div>
+
+          <!-- Question Metadata -->
+          <div class="question-metadata">
+
+            <p>
+              <strong>Difficulty:</strong>
+              {{ question.difficulty }}
+            </p>
+
+            <p>
+              <strong>Question Type:</strong>
+              {{ question.questionType || 'Not specified' }}
+            </p>
+
+            <p>
+              <strong>Paper ID:</strong>
+              {{ question.paperId }}
+            </p>
+
+          </div>
+
+        </div>
+      }
+
+    </section>
+
+  }
+
+  @if (
+    !isLoadingSavedQuestions &&
+    paperId !== null &&
+    savedQuestions.length === 0 &&
+    message.includes('loaded from database')
+  ) {
+    <section class="saved-questions-section">
+      <h3>5. Saved Questions</h3>
+      <p>No questions were returned for this paper.</p>
+    </section>
+  }
+
+</div>

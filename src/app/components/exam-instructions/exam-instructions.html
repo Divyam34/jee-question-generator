@@ -1,0 +1,52 @@
+
+<div class="instructions-container">
+
+  <div class="instructions-header">
+    <p class="eyebrow">JEE ONLINE EXAMINATION</p>
+    <h1>General Instructions</h1>
+    <p>Please read all instructions carefully before starting your test.</p>
+  </div>
+
+  <div class="exam-details">
+    <div class="detail-card">
+      <span>Exam</span>
+      <strong>JEE Practice Test</strong>
+    </div>
+
+    <div class="detail-card">
+      <span>Total Questions</span>
+      <strong>{{ questionCount }}</strong>
+    </div>
+
+    <div class="detail-card">
+      <span>Duration</span>
+      <strong>3 Hours</strong>
+    </div>
+  </div>
+
+  <div class="instructions-card">
+    <h2>Important Instructions</h2>
+
+    <ol>
+      <li>The test will begin after clicking the Start Test button.</li>
+      <li>Each question will have four options. Select the most appropriate answer.</li>
+      <li>Use Save & Next to save your answer and move to the next question.</li>
+      <li>Use Mark for Review if you want to revisit a question later.</li>
+      <li>You can navigate between questions using the question palette.</li>
+      <li>You can change your selected answer before submitting the test.</li>
+      <li>Click Submit Test when you have completed the examination.</li>
+    </ol>
+  </div>
+
+  <div class="instructions-footer">
+    <p>Make sure you are ready before starting the examination.</p>
+
+    <button
+      class="start-btn"
+      [disabled]="questionCount === 0"
+      (click)="startTest()">
+      Start Test →
+    </button>
+  </div>
+
+</div>
